@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="library/filestore/binary/FileStore.jar"/>
+	<classpathentry kind="lib" path="library/gson/binary/gson-2.3.1.jar"/>
+	<classpathentry kind="lib" path="library/gson/source/gson-2.3.1-sources.jar"/>
+	<classpathentry kind="lib" path="library/joda/binary/joda-time-2.7.jar"/>
+	<classpathentry kind="lib" path="library/joda/source/joda-time-2.7-sources.jar"/>
+	<classpathentry kind="lib" path="library/netty/binary/netty-all-4.0.26.Final.jar"/>
+	<classpathentry kind="lib" path="library/netty/source/netty-all-4.0.26.Final-sources.jar"/>
+	<classpathentry kind="lib" path="library/slf4j/binary/slf4j-api-1.7.10.jar"/>
+	<classpathentry kind="lib" path="library/slf4j/binary/slf4j-jdk14-1.7.10.jar"/>
+	<classpathentry kind="lib" path="library/slf4j/source/slf4j-api-1.7.10-sources.jar"/>
+	<classpathentry kind="lib" path="library/slf4j/source/slf4j-jdk14-1.7.10-sources.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="production/out/"/>
+</classpath>

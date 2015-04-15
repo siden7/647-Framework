@@ -1,0 +1,91 @@
+/*The MIT License (MIT)
+
+Copyright (c) 2015 Ivy Development Team
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.*/
+package utilities.cryption.xtea;
+
+import utilities.buffer.ByteBufferUtils;
+
+public class XTEACryption {
+
+	private static final int DELTA = -1640531527;
+	private static final int SUM = -957401312;
+	private static final int NUM_ROUNDS = 32;
+
+	/**
+	 * Represents the key to use for this {@code XTEACipher}.
+	 */
+	private final int[] key;
+
+	/**
+	 * Constructs a new {@code XTEACipher} {@code Object}.
+	 * 
+	 * @param key The key to use.
+	 */
+	private XTEACryption(int[] key) {
+		this.key = key;
+	}
+
+	/**
+	 * Sets the {@code XTEACipher} for use.
+	 * 
+	 * @param key The key to use.
+	 * @return The constructed object.
+	 */
+	public static XTEACryption set(int[] key) {
+		return new XTEACryption(key);
+	}
+
+	/**
+	 * Decrypts the used {@code XTEACipher}.
+	 * 
+	 * @param data The data to use.
+	 * @param offset The offset of the data.
+	 * @param length The length of the data.
+	 * @return The decrypted data.
+	 */
+	public byte[] decrypt(byte[] data, int offset, int length) {
+		int numBlocks = length / 8;
+		int[] block = new int[2];
+		for (int i = 0; i < numBlocks; i++) {
+			block[0] = ByteBufferUtils.readInt((i * 8) + offset, data);
+			block[1] = ByteBufferUtils.readInt((i * 8) + offset + 4, data);
+			decipher(block);
+			ByteBufferUtils.writeInt(block[0], (i * 8) + offset, data);
+			ByteBufferUtils.writeInt(block[1], (i * 8) + offset + 4, data);
+		}
+		return data;
+	}
+
+	/**
+	 * Deciphers a specified block when decrypting the {@code XTEACipher}.
+	 * 
+	 * @param block The data block to use.
+	 */
+	private void decipher(int[] block) {
+		long sum = SUM;
+		for (int i = 0; i < NUM_ROUNDS; i++) {
+			block[1] -= (key[(int) ((sum & 0x1933) >>> 11)] + sum ^ block[0] + (block[0] << 4 ^ block[0] >>> 5));
+			sum -= DELTA;
+			block[0] -= ((block[1] << 4 ^ block[1] >>> 5) + block[1] ^ key[(int) (sum & 0x3)] + sum);
+		}
+	}
+
+}
