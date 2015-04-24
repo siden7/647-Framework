@@ -19,37 +19,61 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
-package com.runescape.build.protocol.context;
-
-import com.runescape.ioheap.IoReadEvent;
+package org.ivy.game.node.entity.render.block.animator;
 
 /**
  * @author _Jordan <citellumrsps@gmail.com>
- * @since Feb 22, 2015
+ * @since Apr 19, 2015
  */
-public class GameRequestContext {
+public class Animation {
 
 	/**
-	 * Represents the {@code IncomingPacket} to use for this {@code GameRequestContext}.
+	 * Represents the id of the {@code Animation}.
 	 */
-	private final IoReadEvent reader;
+	private final int animationId;
 
 	/**
-	 * Constructs a new {@code GameRequestContext} {@code Object}.
+	 * Represents the delay of the {@code Animation}.
+	 */
+	private final int delay;
+
+	/**
+	 * Constructs a new {@code Animation} {@code Object}.
 	 * 
-	 * @param reader The {@code IoHeapReader} to use.
+	 * @param animationId The animation id to use.
 	 */
-	public GameRequestContext(IoReadEvent reader) {
-		this.reader = reader;
+	public Animation(int animationId) {
+		this.animationId = animationId;
+		this.delay = 0;
 	}
 
 	/**
-	 * Gets the incoming packet.
+	 * Constructs a new {@code Animation} {@code Object}.
 	 * 
-	 * @return the incomingPacket
+	 * @param animationId The animation id to use.
+	 * @param delay The delay of the animation.
 	 */
-	public IoReadEvent getIncomingPacket() {
-		return reader;
+	public Animation(int animationId, int delay) {
+		this.animationId = animationId;
+		this.delay = delay;
+	}
+
+	/**
+	 * Gets the animation id.
+	 * 
+	 * @return the animationId
+	 */
+	public int getAnimationId() {
+		return animationId;
+	}
+
+	/**
+	 * Gets the animation delay.
+	 * 
+	 * @return the delay
+	 */
+	public int getDelay() {
+		return delay;
 	}
 
 }

@@ -19,37 +19,12 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
-package com.runescape.build.protocol.context;
-
-import com.runescape.ioheap.IoReadEvent;
+package org.ivy.game.node.entity.render.block.animator;
 
 /**
  * @author _Jordan <citellumrsps@gmail.com>
- * @since Feb 22, 2015
+ * @since Apr 19, 2015
  */
-public class GameRequestContext {
-
-	/**
-	 * Represents the {@code IncomingPacket} to use for this {@code GameRequestContext}.
-	 */
-	private final IoReadEvent reader;
-
-	/**
-	 * Constructs a new {@code GameRequestContext} {@code Object}.
-	 * 
-	 * @param reader The {@code IoHeapReader} to use.
-	 */
-	public GameRequestContext(IoReadEvent reader) {
-		this.reader = reader;
-	}
-
-	/**
-	 * Gets the incoming packet.
-	 * 
-	 * @return the incomingPacket
-	 */
-	public IoReadEvent getIncomingPacket() {
-		return reader;
-	}
+public class Graphic {
 
 }

@@ -45,7 +45,7 @@ public class LandscapePacketEncoder implements PacketEncoder<LandscapePacketCont
 	public IoWriteEvent encodePacket(LandscapePacketContext context) {
 		IoWriteEvent buffer = IoWriteEvent.create(73);
 		if (context.isLogin()) {
-			context.getPlayer().getFlagProcessor().getPlayerUpdate().enterGameWorld(context.getPlayer(), buffer);
+			context.getPlayer().getUpdateBlockProcessor().getPlayerUpdate().enterGameWorld(context.getPlayer(), buffer);
 		}// Lol I was sending both X chunks.
 		buffer.writeLEShort(context.getLocation().getChunkX()).writeC(context.isLogin() ? 1 : 0).writeC(0).writeLEShortA(context.getLocation().getChunkY());
 		int chunkX = context.getLocation().getChunkX();

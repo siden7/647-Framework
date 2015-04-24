@@ -19,37 +19,36 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
-package com.runescape.build.protocol.context;
+package org.ivy.game.node.entity.render.block.appearance.impl;
 
-import com.runescape.ioheap.IoReadEvent;
+import io.netty.buffer.ByteBuf;
+
+import org.ivy.game.node.entity.player.Player;
+import org.ivy.game.node.entity.render.block.appearance.BodyAppearance;
 
 /**
  * @author _Jordan <citellumrsps@gmail.com>
- * @since Feb 22, 2015
+ * @since Mar 1, 2015
  */
-public class GameRequestContext {
+public class Torso extends BodyAppearance {
 
 	/**
-	 * Represents the {@code IncomingPacket} to use for this {@code GameRequestContext}.
-	 */
-	private final IoReadEvent reader;
-
-	/**
-	 * Constructs a new {@code GameRequestContext} {@code Object}.
+	 * Constructs a new {@code Torso} {@code Object}.
 	 * 
-	 * @param reader The {@code IoHeapReader} to use.
+	 * @param styleId The style id to use for this {@code Torso}.
 	 */
-	public GameRequestContext(IoReadEvent reader) {
-		this.reader = reader;
+	public Torso(int styleId) {
+		super(styleId, 71);
 	}
 
-	/**
-	 * Gets the incoming packet.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @return the incomingPacket
+	 * @see org.ivy.game.node.entity.render.flag.appearance.BodyAppearance#buildBodyPart(io.netty.buffer.ByteBuf, org.ivy.game.node.entity.player.Player)
 	 */
-	public IoReadEvent getIncomingPacket() {
-		return reader;
+	@Override
+	public void buildBodyPart(ByteBuf buffer, Player player) {
+		buffer.writeShort(0x100 + styleId);
 	}
 
 }

@@ -57,7 +57,7 @@ public class GameDecoder extends ReplayingDecoder<GameStage> {
 	/**
 	 * Represents the incoming packet id.
 	 */
-	private int opcode;
+	private int packetId;
 
 	/**
 	 * Represents the length of the incoming packet id.
@@ -84,17 +84,17 @@ public class GameDecoder extends ReplayingDecoder<GameStage> {
 		if (in.isReadable()) {
 			switch (state()) {
 			case READ_PACKET:
-				opcode = 0xff & in.readUnsignedByte() - isaacPair.getInput().getNextValue();
-				if (opcode >= 128) {
-					opcode = (opcode - 128 << 8) + (in.readUnsignedByte() - isaacPair.getInput().getNextValue());
+				packetId = 0xff & in.readUnsignedByte() - isaacPair.getInput().getNextValue();
+				if (packetId >= 128) {
+					packetId = (packetId - 128 << 8) + (in.readUnsignedByte() - isaacPair.getInput().getNextValue());
 				}
-				if (opcode > PACKET_SIZES.length || opcode < 0) {
+				if (packetId > PACKET_SIZES.length || packetId < 0) {
 					return;
 				}
 				checkpoint(GameStage.READ_SIZE);
 				break;
 			case READ_SIZE:
-				length = PACKET_SIZES[opcode];
+				length = PACKET_SIZES[packetId];
 				if (length < 0) {
 					switch (length) {
 					case -1:
@@ -121,7 +121,7 @@ public class GameDecoder extends ReplayingDecoder<GameStage> {
 					}
 					byte[] payload = new byte[length];
 					in.readBytes(payload, 0, length);
-					out.add(new GameRequestContext(opcode, new IoReadEvent(Unpooled.wrappedBuffer(payload))));
+					out.add(new GameRequestContext(new IoReadEvent(packetId, Unpooled.wrappedBuffer(payload))));
 				}
 				checkpoint(GameStage.READ_PACKET);
 				break;

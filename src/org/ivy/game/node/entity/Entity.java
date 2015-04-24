@@ -22,11 +22,49 @@ SOFTWARE.*/
 package org.ivy.game.node.entity;
 
 import org.ivy.game.node.Node;
+import org.ivy.game.node.entity.render.block.UpdateBlockProcessor;
+import org.ivy.game.node.entity.render.block.UpdateBlockProcessor.UpdateFlag;
+import org.ivy.game.node.entity.render.block.animator.Animation;
+import org.ivy.game.node.entity.render.block.animator.Graphic;
 
 /**
  * @author _Jordan <citellumrsps@gmail.com>
  * @since Feb 25, 2015
  */
 public class Entity extends Node {
+
+	/**
+	 * Represents the {@code UpdateBlockProcessor} to use.
+	 */
+	protected final UpdateBlockProcessor updateBlockProcessor = new UpdateBlockProcessor(this);
+
+	/**
+	 * Animates the {@code Entity}.
+	 * 
+	 * @param graphic The graphic.
+	 */
+	public void animate(Graphic graphic) {
+		updateBlockProcessor.getAnimator().setGraphic(graphic);
+		updateBlockProcessor.flagUpdate(UpdateFlag.GRAPHIC);
+	}
+
+	/**
+	 * Animates the {@code Entity}.
+	 * 
+	 * @param animation The animation.
+	 */
+	public void animate(Animation animation) {
+		updateBlockProcessor.getAnimator().setAnimation(animation);
+		updateBlockProcessor.flagUpdate(UpdateFlag.ANIMATION);
+	}
+
+	/**
+	 * Gets the update block processor.
+	 * 
+	 * @return the flagProcessor
+	 */
+	public UpdateBlockProcessor getUpdateBlockProcessor() {
+		return updateBlockProcessor;
+	}
 
 }

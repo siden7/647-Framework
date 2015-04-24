@@ -19,37 +19,44 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
-package com.runescape.build.protocol.context;
+package org.ivy.game.node.entity.render.block;
 
-import com.runescape.ioheap.IoReadEvent;
+import org.ivy.game.node.entity.Entity;
+
+import com.runescape.ioheap.IoWriteEvent;
 
 /**
  * @author _Jordan <citellumrsps@gmail.com>
- * @since Feb 22, 2015
+ * @since Mar 1, 2015
  */
-public class GameRequestContext {
+public abstract class UpdateBlock {
 
 	/**
-	 * Represents the {@code IncomingPacket} to use for this {@code GameRequestContext}.
+	 * Represents the {@code Entity} to use for this {@code UpdateBlock}.
 	 */
-	private final IoReadEvent reader;
+	protected final Entity entity;
 
 	/**
-	 * Constructs a new {@code GameRequestContext} {@code Object}.
+	 * Constructs a new {@code UpdateBlock} {@code Object}.
 	 * 
-	 * @param reader The {@code IoHeapReader} to use.
+	 * @param entity The entity to construct.
 	 */
-	public GameRequestContext(IoReadEvent reader) {
-		this.reader = reader;
+	public UpdateBlock(Entity entity) {
+		this.entity = entity;
 	}
 
 	/**
-	 * Gets the incoming packet.
+	 * Builds a requested update block.
 	 * 
-	 * @return the incomingPacket
+	 * @param block The block to use.
 	 */
-	public IoReadEvent getIncomingPacket() {
-		return reader;
-	}
+	public abstract void buildUpdateBlock(IoWriteEvent block);
+
+	/**
+	 * Gets the mask for each {@code UpdateBlock}.
+	 * 
+	 * @return The mask id.
+	 */
+	public abstract int getMask();
 
 }

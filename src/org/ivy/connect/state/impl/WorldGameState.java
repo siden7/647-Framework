@@ -71,9 +71,9 @@ public class WorldGameState extends GameState {
 	public void channelRead(Object context) {
 		if (context instanceof GameRequestContext) {
 			GameRequestContext request = (GameRequestContext) context;
-			PacketDecoder packet = PacketRepository.getDecodingPacket(request.getPacketId());
+			PacketDecoder packet = PacketRepository.getDecodingPacket(request.getIncomingPacket().getPacketId());
 			if (packet == null) {
-				player.getPacketProcessor().processConsoleMessage("Unhandled Packet: " + request.getPacketId());
+				player.getPacketProcessor().processConsoleMessage("Unhandled Packet: " + request.getIncomingPacket().getPacketId());
 				return;
 			}
 			packet.decodePacket(player, request.getIncomingPacket());

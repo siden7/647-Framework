@@ -11,6 +11,11 @@ import utilities.buffer.ByteBufferUtils;
 public class IoReadEvent implements IoHeap {
 
 	/**
+	 * Represents the packet id.
+	 */
+	private final int packetId;
+
+	/**
 	 * The buffer.
 	 */
 	private final ByteBuf buffer;
@@ -20,8 +25,16 @@ public class IoReadEvent implements IoHeap {
 	 * 
 	 * @param buffer The channel buffer.
 	 */
-	public IoReadEvent(ByteBuf buffer) {
+	public IoReadEvent(int packetId, ByteBuf buffer) {
+		this.packetId = packetId;
 		this.buffer = buffer;
+	}
+
+	/**
+	 * @return the packetId
+	 */
+	public int getPacketId() {
+		return packetId;
 	}
 
 	/**

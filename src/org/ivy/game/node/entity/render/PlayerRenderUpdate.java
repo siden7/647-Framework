@@ -3,6 +3,7 @@ package org.ivy.game.node.entity.render;
 import java.security.MessageDigest;
 
 import org.ivy.game.node.entity.player.Player;
+import org.ivy.game.node.entity.render.block.UpdateBlockProcessor.UpdateFlag;
 import org.ivy.game.world.impl.GameWorld;
 
 import com.runescape.ioheap.IoWriteEvent;
@@ -150,8 +151,8 @@ public class PlayerRenderUpdate {
 				continue;
 			}
 			Player localPlayer = player.getLocationManager().getViewport().getLocalPlayers()[countIndex];
-			boolean needAppearenceUpdate = appearanceUpdateRequired(localPlayer.getIndex(), localPlayer.getFlagProcessor().getAppearance().getMd5AppeareanceDataHash());
-			boolean needUpdate = needAppearenceUpdate;
+			boolean needAppearenceUpdate = appearanceUpdateRequired(localPlayer.getIndex(), localPlayer.getUpdateBlockProcessor().getAppearance().getMd5AppeareanceDataHash());
+			boolean needUpdate = needAppearenceUpdate || player.getUpdateBlockProcessor().isUpdateRequired();
 			if (needUpdate) {
 				appendUpdateBlock(localPlayer, block, needAppearenceUpdate, false);
 			}
@@ -167,7 +168,7 @@ public class PlayerRenderUpdate {
 						continue;
 					}
 					Player p2 = localPlayer.getLocationManager().getViewport().getLocalPlayers()[index];
-					if (appearanceUpdateRequired(p2.getIndex(), localPlayer.getFlagProcessor().getAppearance().getMd5AppeareanceDataHash())) {
+					if (appearanceUpdateRequired(p2.getIndex(), localPlayer.getUpdateBlockProcessor().getAppearance().getMd5AppeareanceDataHash())) {
 						break;
 					}
 					skip++;
@@ -189,8 +190,14 @@ public class PlayerRenderUpdate {
 	 */
 	private void appendUpdateBlock(Player player, IoWriteEvent block, boolean needAppearenceUpdate, boolean b) {
 		int mask = 0x0;
-		if (needAppearenceUpdate) {
-			mask |= player.getFlagProcessor().getAppearance().getMask();
+		if (player.getUpdateBlockProcessor().hasFlag(UpdateFlag.ANIMATION)) {
+			mask |= player.getUpdateBlockProcessor().getAnimator().getMask();
+		}
+		if (needAppearenceUpdate || player.getUpdateBlockProcessor().hasFlag(UpdateFlag.APPEARANCE)) {
+			mask |= player.getUpdateBlockProcessor().getAppearance().getMask();
+		}
+		if (player.getUpdateBlockProcessor().hasFlag(UpdateFlag.GRAPHIC)) {
+			mask |= player.getUpdateBlockProcessor().getAnimator().getMask();
 		}
 		if (mask >= 0x100) {
 			mask |= 0x20;
@@ -206,13 +213,19 @@ public class PlayerRenderUpdate {
 		} else {
 			block.write(mask & 0xff);
 		}
+		if (player.getUpdateBlockProcessor().hasFlag(UpdateFlag.ANIMATION)) {
+			player.getUpdateBlockProcessor().getAnimator().buildUpdateBlock(block);
+		}
 		if (needAppearenceUpdate) {
-			if (player.getFlagProcessor().getAppearance().getAppeareanceData() == null) {
-				player.getFlagProcessor().processAppearance();
+			if (player.getUpdateBlockProcessor().getAppearance().getAppeareanceData() == null) {
+				player.getUpdateBlockProcessor().getAppearance().buildUpdateBlock(block);
 			}
-			byte[] renderData = player.getFlagProcessor().getAppearance().getAppeareanceData();
+			byte[] renderData = player.getUpdateBlockProcessor().getAppearance().getAppeareanceData();
 			block.writeS(renderData.length);
 			block.writeBytes(renderData, 0, renderData.length);
+		}
+		if (player.getUpdateBlockProcessor().hasFlag(UpdateFlag.GRAPHIC)) {
+			player.getUpdateBlockProcessor().getAnimator().buildUpdateBlock(block);
 		}
 	}
 

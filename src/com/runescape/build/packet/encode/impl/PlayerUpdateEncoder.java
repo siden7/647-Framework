@@ -41,7 +41,7 @@ public class PlayerUpdateEncoder implements PacketEncoder<PlayerUpdateContext> {
 	 */
 	@Override
 	public IoWriteEvent encodePacket(PlayerUpdateContext context) {
-		return context.getPlayer().getFlagProcessor().processPlayerUpdate();
+		return context.getPlayer().getUpdateBlockProcessor().processPlayerUpdate();
 	}
 
 }

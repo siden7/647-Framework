@@ -22,6 +22,7 @@ SOFTWARE.*/
 package org.ivy.game.content;
 
 import org.ivy.game.node.entity.player.Player;
+import org.ivy.game.node.entity.render.block.animator.Animation;
 
 /**
  * @author _Jordan <citellumrsps@gmail.com>
@@ -37,8 +38,14 @@ public class EmotesHandler {
 	 */
 	public static void handleEmote(Player player, int buttonId) {
 		switch (buttonId) {
-
+		case 2:
+			player.animate(new Animation(855));
+			break;
+		case 3:
+			player.animate(new Animation(856));
+			break;
 		}
+		player.getPacketProcessor().processPlayerUpdate();
 	}
 
 }

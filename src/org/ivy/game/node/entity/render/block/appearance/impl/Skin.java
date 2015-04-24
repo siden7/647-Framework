@@ -19,37 +19,33 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
-package com.runescape.build.protocol.context;
+package org.ivy.game.node.entity.render.block.appearance.impl;
 
-import com.runescape.ioheap.IoReadEvent;
+import io.netty.buffer.ByteBuf;
+
+import org.ivy.game.node.entity.player.Player;
+import org.ivy.game.node.entity.render.block.appearance.BodyAppearance;
 
 /**
  * @author _Jordan <citellumrsps@gmail.com>
- * @since Feb 22, 2015
+ * @since Mar 13, 2015
  */
-public class GameRequestContext {
+public class Skin extends BodyAppearance {
 
 	/**
-	 * Represents the {@code IncomingPacket} to use for this {@code GameRequestContext}.
+	 * Constructs a new {@code Skin} {@code Object}.
 	 */
-	private final IoReadEvent reader;
-
-	/**
-	 * Constructs a new {@code GameRequestContext} {@code Object}.
-	 * 
-	 * @param reader The {@code IoHeapReader} to use.
-	 */
-	public GameRequestContext(IoReadEvent reader) {
-		this.reader = reader;
+	public Skin() {
+		super(0, 1);
 	}
 
-	/**
-	 * Gets the incoming packet.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @return the incomingPacket
+	 * @see org.ivy.game.node.entity.render.flag.appearance.BodyAppearance#buildBodyPart(io.netty.buffer.ByteBuf, org.ivy.game.node.entity.player.Player)
 	 */
-	public IoReadEvent getIncomingPacket() {
-		return reader;
+	@Override
+	public void buildBodyPart(ByteBuf buffer, Player player) {
 	}
 
 }

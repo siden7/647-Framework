@@ -52,9 +52,15 @@ public class ButtonPacketDecoder implements PacketDecoder {
 			itemId = 0;
 		}
 		player.getPacketProcessor().processGameMessage("InterfaceId: " + interfaceId + ", ButtonId: " + buttonId + ", " + "SlotId: " + slotId + ", ItemId: " + itemId);
-		switch (interfaceId) {
-		case 464:
-			EmotesHandler.handleEmote(player, buttonId);
+		switch (packet.getPacketId()) {
+		case 16:
+			switch (interfaceId) {
+			case 464:
+				EmotesHandler.handleEmote(player, buttonId);
+				break;
+			}
+			break;
+		case 52:
 			break;
 		}
 	}

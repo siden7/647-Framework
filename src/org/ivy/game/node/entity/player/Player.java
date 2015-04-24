@@ -26,7 +26,7 @@ import org.ivy.game.node.entity.Entity;
 import org.ivy.game.node.entity.player.managers.display.ComponentManager;
 import org.ivy.game.node.entity.player.managers.display.DisplayManager;
 import org.ivy.game.node.entity.player.managers.location.LocationManager;
-import org.ivy.game.node.entity.render.flag.UpdateBlockProcessor;
+import org.ivy.game.node.entity.render.block.UpdateBlockProcessor.UpdateFlag;
 
 import com.runescape.RuneScape;
 import com.runescape.build.packet.PacketProcessor;
@@ -69,11 +69,6 @@ public class Player extends Entity {
 	private final ComponentManager interfaceManager = new ComponentManager(this);
 
 	/**
-	 * Represents the {@code FlagProcessor} to use.
-	 */
-	private final UpdateBlockProcessor updateBlockProcessor = new UpdateBlockProcessor(this);
-
-	/**
 	 * Represents if the {@code Player} finished login.
 	 */
 	private boolean finishedLogin;
@@ -101,7 +96,8 @@ public class Player extends Entity {
 		case REQUEST_WORLD:
 			RuneScape.getGameContext().getWorld().addPlayer(this);// TODO Probs find a better way of handling related stuff like this.
 			locationManager.refreshManager();
-			updateBlockProcessor.processAppearance();
+			updateBlockProcessor.getAppearance().buildUpdateBlock(null);
+			updateBlockProcessor.flagUpdate(UpdateFlag.APPEARANCE);
 			packetProcessor.processPlayerUpdate();
 			packetProcessor.processConfig(1240, 1980);// HP
 			packetProcessor.processConfig(1801, 13370);// XP gained.
@@ -171,15 +167,6 @@ public class Player extends Entity {
 	 */
 	public ComponentManager getInterfaceManager() {
 		return interfaceManager;
-	}
-
-	/**
-	 * Gets the flag processor.
-	 * 
-	 * @return the flagProcessor
-	 */
-	public UpdateBlockProcessor getFlagProcessor() {
-		return updateBlockProcessor;
 	}
 
 	/**

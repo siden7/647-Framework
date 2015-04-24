@@ -30,7 +30,7 @@ public class Location extends Coordinate {
 	/**
 	 * Represents the default starting {@code Location}.
 	 */
-	public static final Location DEFAULT_LOCATION = Location.createLocation(3133, 3513, 0);
+	public static final Location DEFAULT_LOCATION = Location.createLocation(3222, 3222, 0);
 
 	/**
 	 * Represents the possible {@link RegionDispatcher} sizes on the <b>Runescape</b> map.
